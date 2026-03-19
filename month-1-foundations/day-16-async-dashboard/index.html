@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; padding: 20px; }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h2 { margin-bottom: 15px; }
+        .loading { color: #999; font-style: italic; }
+        .error { color: #e74c3c; }
+        .timer { font-size: 12px; color: #999; margin-top: 10px; }
+        .refresh-btn { padding: 6px 12px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .refresh-all { display: block; margin: 0 auto 20px; padding: 10px 30px; font-size: 16px; }
+        #dog-image { max-width: 100%; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Async Data Dashboard</h1>
+    <button class="refresh-btn refresh-all" id="refresh-all">Refresh All</button>
+    <div class="dashboard">
+        <div class="card">
+            <h2>Random Quote</h2>
+            <div id="quote-content" class="loading">Loading...</div>
+            <div id="quote-timer" class="timer"></div>
+            <button class="refresh-btn" data-source="quote">Refresh</button>
+        </div>
+        <div class="card">
+            <h2>Random Dog</h2>
+            <div id="dog-content" class="loading">Loading...</div>
+            <div id="dog-timer" class="timer"></div>
+            <button class="refresh-btn" data-source="dog">Refresh</button>
+        </div>
+        <div class="card">
+            <h2>Random Joke</h2>
+            <div id="joke-content" class="loading">Loading...</div>
+            <div id="joke-timer" class="timer"></div>
+            <button class="refresh-btn" data-source="joke">Refresh</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
