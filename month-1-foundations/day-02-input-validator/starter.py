@@ -28,42 +28,84 @@ class MissingFieldError(Exception):
 
 def validate_name(name):
     """Validate that name is non-empty and contains only letters/spaces."""
-    # TODO: Check if name is empty or None
-    # TODO: Check if name contains numbers
-    # TODO: Raise InvalidNameError with descriptive message
-    pass
+    if name == "" or name == None:
+        raise InvalidNameError("Name cannot be empty")
+
+    for _ in name:
+        if _ == " ":
+            continue
+        if not _.isalpha():
+            raise InvalidNameError("Name must contain only letters")
 
 
 def validate_grade(grade):
     """Validate that grade is a number between 0 and 100."""
-    # TODO: Check type
-    # TODO: Check range
-    # TODO: Raise InvalidGradeError
-    pass
+    if not isinstance(grade, (int, float)):
+        raise InvalidGradeError("Grade must be a number.")
+
+    if grade < 0 or grade > 100:
+        raise InvalidGradeError("Grade must be between 0 and 100.")
 
 
 def validate_email(email):
     """Validate basic email format (contains @ and .)."""
-    # TODO: Check for @ and .
-    # TODO: Raise InvalidEmailError
-    pass
+    if not ("@" in email and "." in email):
+        raise InvalidEmailError("Invalid email address")
 
 
 def validate_record(record):
     """Validate a single student record. Returns list of errors."""
     errors = []
-    # TODO: Check for required fields (name, grade, email)
-    # TODO: Validate each field, catching exceptions
-    # TODO: Return list of error messages
+
+    # Step 1: check for missing fields
+    for field in ["name", "grade", "email"]:
+        if field not in record:
+            errors.append(f"Missing required field: {field}")
+
+    # Step 2: validate the fields that exist
+    if "name" in record:
+        try:
+            validate_name(record["name"])
+        except InvalidNameError as e:
+            errors.append(str(e))
+
+    if "email" in record:
+        try:
+            validate_email(record["email"])
+        except InvalidEmailError as e:
+            errors.append(str(e))
+
+    if "grade" in record:
+        try:
+            validate_grade(record["grade"])
+        except InvalidGradeError as e:
+            errors.append(str(e))
+
     return errors
 
 
 def validate_batch(records):
     """Validate all records and generate a report."""
-    # TODO: Loop through records
-    # TODO: Collect errors per record
-    # TODO: Print summary report
-    pass
+    valid = 0
+    invalid = 0
+    all_errors = []
+
+    for record in records:
+        errors = validate_record(record)
+        if len(errors) == 0:
+            valid += 1
+        else:
+            invalid += 1
+            all_errors.extend(errors)
+
+    print("=== Validation Report ===")
+    print(f"Total records: {valid + invalid}")
+    print(f"Valid: {valid}")
+    print(f"Invalid: {invalid}")
+
+    print("\nErrors:")
+    for _ in all_errors:
+        print(f"- {_}")
 
 
 # --- Sample Data ---
